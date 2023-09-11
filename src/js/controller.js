@@ -4,19 +4,11 @@ import recipeView from "./views/recipeView";
 //5ed6604591c37cdc054bcd09
 //5ed6604591c37cdc054bcc13
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
-
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
 
-const controlRecipe = async function () {
+const controlRecipes = async function () {
   try {
     //Getting hash value
     const id = window.location.hash.slice(1);
@@ -35,7 +27,7 @@ const controlRecipe = async function () {
 
 //Loading recipe on hashchange and loading
 ["hashchange", "load"].forEach((ev) => {
-  window.addEventListener(ev, controlRecipe);
+  window.addEventListener(ev, controlRecipes);
 });
-// window.addEventListener("hashchange", controlRecipe);
-// window.addEventListener("load", controlRecipe);
+// window.addEventListener("hashchange", controlRecipes);
+// window.addEventListener("load", controlRecipes);
