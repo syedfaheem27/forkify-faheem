@@ -13,6 +13,33 @@ export default class View {
     this._clear();
     this._parentEl.insertAdjacentHTML("afterbegin", markup);
   }
+  update(data) {
+    this._data = data;
+
+    const markup = this._generateMarkup();
+    const newDom = document.createRange().createContextualFragment(markup);
+    const newElements = Array.from(newDom.querySelectorAll("*"));
+    const currElements = Array.from(this._parentEl.querySelectorAll("*"));
+
+    newElements.forEach((newEl, i) => {
+      const currEl = currElements[i];
+      if (
+        !newEl.isEqualNode(currEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ""
+      ) {
+        // currEl.innerHTML = newEl.innerHTML;
+        //Updating the text content
+        currEl.textContent = newEl.textContent;
+      }
+
+      //Updating the attributes
+      if (!newEl.isEqualNode(currEl)) {
+        Array.from(newEl.attributes).forEach((attr) => {
+          currEl.setAttribute(attr.name, attr.value);
+        });
+      }
+    });
+  }
 
   _clear() {
     this._parentEl.innerHTML = "";
