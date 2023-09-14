@@ -23,7 +23,6 @@ const controlRecipes = async function () {
     resultsView.update(model.getResultsPerPage());
 
     await model.getRecipe(id);
-    console.log(model.state.recipe);
 
     //2.Rendering recipe
     recipeView.render(model.state.recipe);
@@ -75,9 +74,18 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
+export const controlToggleBookmarks = function (recipe) {
+  //toggle the bookmark
+  model.toggleBookmark(recipe);
+
+  //update the view
+  recipeView.update(model.state.recipe);
+};
+
 const init = function () {
   recipeView.addRenderHandler(controlRecipes);
   recipeView.addUpdateServingsHandler(controlServings);
+  recipeView.addBookmarkHandler(controlToggleBookmarks);
   searchView.addSearchHandler(controlSearchResults);
   paginationView.addPaginationHandler(controlPagination);
 };

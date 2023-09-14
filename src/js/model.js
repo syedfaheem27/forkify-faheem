@@ -8,6 +8,7 @@ export const state = {
     page: 1,
     resultsPerPage: RES_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export const getRecipe = async function (id) {
@@ -24,6 +25,10 @@ export const getRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+    //Persisting the bookmark state upon loading a new recipe
+    if (state.bookmarks.some((bookmark) => bookmark.id === state.recipe.id))
+      state.recipe.bookmarked = true;
+    else state.recipe.bookmarked = false;
   } catch (err) {
     throw err;
   }
@@ -35,6 +40,16 @@ export const getSearchResults = async function (query) {
     const { data } = await getJSON(`${API_URL}?search=${query}`);
 
     state.search.results = data.recipes.map((rec) => {
+      //Add bookmarked property to every result -- This creates an overkill -- unnecessary
+      // const recipe = {
+      //   id: rec.id,
+      //   title: rec.title,
+      //   publisher: rec.publisher,
+      //   image: rec.image_url,
+      // };
+      // if (state.bookmarks.some((bookmark) => bookmark.id === rec.id))
+      //   return { ...recipe, bookmarked: true };
+      // else return { ...recipe, bookmarked: false };
       return {
         id: rec.id,
         title: rec.title,
@@ -62,4 +77,25 @@ export function updateRecipeServings(newServings) {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
   state.recipe.servings = newServings;
+}
+
+//----------------------
+export function toggleBookmark(recipe) {
+  if (recipe.bookmarked) {
+    //Unbookmark it
+    state.recipe.bookmarked = false;
+
+    //Delete it from bookmakrs array
+    const index = state.bookmarks.findIndex(
+      (bookmark) => bookmark.id === recipe.id
+    );
+
+    state.bookmarks.splice(index, 1);
+  } else {
+    //Bookmark it
+    state.recipe.bookmarked = true;
+
+    //Push it to the bookmarks array
+    state.bookmarks.push(state.recipe);
+  }
 }
