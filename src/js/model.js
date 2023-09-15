@@ -89,7 +89,6 @@ export function toggleBookmark(recipe) {
     const index = state.bookmarks.findIndex(
       (bookmark) => bookmark.id === recipe.id
     );
-
     state.bookmarks.splice(index, 1);
   } else {
     //Bookmark it
@@ -98,4 +97,25 @@ export function toggleBookmark(recipe) {
     //Push it to the bookmarks array
     state.bookmarks.push(state.recipe);
   }
+
+  //Updating local storage
+  persistBookmarks();
 }
+
+const persistBookmarks = function () {
+  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+};
+
+//loading bookmarks when the page loads
+const init = function () {
+  const bookmarks = localStorage.getItem("bookmarks");
+  if (!bookmarks) return;
+  state.bookmarks = JSON.parse(bookmarks);
+};
+
+init();
+
+const clearBookmarks = function () {
+  localStorage.clear("bookmarks");
+};
+// clearBookmarks();
