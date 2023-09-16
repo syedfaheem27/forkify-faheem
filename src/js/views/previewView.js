@@ -1,6 +1,12 @@
 import View from "./View";
 import icons from "../../img/icons.svg";
 class PreviewView extends View {
+  /**
+   * Generates a markup which serves as a preview of the data in the PreviewView instance
+   * @returns {string} returns a markup string
+   * @this {Object} PreviewView instance
+   * @author Faheem Tahir
+   */
   _generateMarkup() {
     const id = window.location.hash.slice(1);
     return `

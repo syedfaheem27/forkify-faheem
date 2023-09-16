@@ -6,6 +6,12 @@ class Resultsview extends View {
     "No recipes found for your query! Try again with a valid query";
 
   _message;
+  /**
+   * Generates a markup which is then inserted to the DOM
+   * @returns {string} returns a markup string
+   * @this {Object} ResultsView instance
+   * @author Faheem Tahir
+   */
   _generateMarkup() {
     return this._data
       .map((bookmark) => previewView.render(bookmark, false))

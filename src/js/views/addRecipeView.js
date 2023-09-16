@@ -38,6 +38,12 @@ class AddRecipeView extends View {
   }
   _generateMarkup() {}
 
+  /**
+   * Renders the form back
+   * @returns {undefined} returns undefined
+   * @author Faheem Tahir
+   */
+
   restoreForm() {
     const markup = `<div class="upload__column">
           <h3 class="upload__heading">Recipe data</h3>

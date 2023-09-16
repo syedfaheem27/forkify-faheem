@@ -10,6 +10,13 @@ class BookmarksView extends View {
   loadBookmarksHandler(handler) {
     window.addEventListener("load", handler);
   }
+
+  /**
+   * Generates a markup string to be inserted to the DOM
+   * @returns {string} returns markup string
+   * @this {Object} BookmarksView instance
+   * @author Faheem Tahir
+   */
   _generateMarkup() {
     return this._data
       .map((bookmark) => previewView.render(bookmark, false))

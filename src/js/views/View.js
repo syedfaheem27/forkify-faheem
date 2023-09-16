@@ -3,6 +3,15 @@ import icons from "../../img/icons.svg";
 export default class View {
   _data;
 
+  /**
+   * Renders the recieved data to the DOM
+   * @param {Object | Object[]} data The data to be rendered (e.g recipe)
+   * @param {boolean} [render=true] If true renders the data to the DOM else returns the markup string
+   * @returns {undefined | string} If render set to true, returns undefined else returns a markup string
+   * @this {Object} The view instance
+   * @author Faheem Tahir
+   */
+
   render(data, render = true) {
     //Guard class
     if (!data || Object.keys(data).length === 0) return this.renderError();
@@ -14,6 +23,14 @@ export default class View {
     this._clear();
     this._parentEl.insertAdjacentHTML("afterbegin", markup);
   }
+  /**
+   * Updates the DOM with the recieved data instead of re-rendering the whole DOM
+   * @param {Object | Object[]} data The data that should be added to update the DOM
+   * @returns {undefined} returns undefined
+   * @this {Object} View instance
+   * @author Faheem Tahir
+   */
+
   update(data) {
     this._data = data;
 
