@@ -30,7 +30,7 @@ const formatRecipeData = function (data) {
 
 export const getRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = formatRecipeData(data);
     //Persisting the bookmark state upon loading a new recipe
     if (state.bookmarks.some((bookmark) => bookmark.id === state.recipe.id))
@@ -44,7 +44,7 @@ export const getRecipe = async function (id) {
 export const getSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const { data } = await AJAX(`${API_URL}?search=${query}`);
+    const { data } = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
 
     state.search.results = data.recipes.map((rec) => {
       //Add bookmarked property to every result -- This creates an overkill -- unnecessary
@@ -62,11 +62,11 @@ export const getSearchResults = async function (query) {
         title: rec.title,
         publisher: rec.publisher,
         image: rec.image_url,
+        ...(rec.key && { key: rec.key }),
       };
     });
     state.search.page = 1;
   } catch (err) {
-    console.error(err);
     throw err;
   }
 };
@@ -143,7 +143,8 @@ export const uploadRecipe = async function (newRecipe) {
         recDetail[0].startsWith("ingredient") && recDetail[1] !== ""
     );
     const ingredients = ingredientsArr.map((ing) => {
-      const ingArr = ing[1].replaceAll(" ", "").split(",");
+      // const ingArr = ing[1].replaceAll(" ", "").split(",");
+      const ingArr = ing[1].split(",").map((ing) => ing.trim());
 
       if (ingArr.length !== 3)
         throw new Error(
