@@ -1,5 +1,7 @@
 import { API_URL, KEY, RES_PER_PAGE } from "./config";
-import { getJSON, sendJSON } from "./helpers";
+// import { getJSON, sendJSON } from "./helpers";
+import { AJAX } from "./helpers";
+
 export const state = {
   recipe: {},
   search: {
@@ -28,7 +30,7 @@ const formatRecipeData = function (data) {
 
 export const getRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}`);
     state.recipe = formatRecipeData(data);
     //Persisting the bookmark state upon loading a new recipe
     if (state.bookmarks.some((bookmark) => bookmark.id === state.recipe.id))
@@ -42,7 +44,7 @@ export const getRecipe = async function (id) {
 export const getSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const { data } = await getJSON(`${API_URL}?search=${query}`);
+    const { data } = await AJAX(`${API_URL}?search=${query}`);
 
     state.search.results = data.recipes.map((rec) => {
       //Add bookmarked property to every result -- This creates an overkill -- unnecessary
@@ -166,7 +168,7 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
 
-    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     //Add the data into the state
     state.recipe = formatRecipeData(data);
     //Bookmark it and store it in local storage
