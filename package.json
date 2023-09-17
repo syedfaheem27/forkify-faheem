@@ -15,7 +15,7 @@
   },
   "browserslist": "last 2 versions, > 0.5% and ie >= 11",
   "dependencies": {
-    "fractional": "^1.0.0",
+    "fracty": "^1.0.11",
     "sass": "^1.66.1"
   }
 }
