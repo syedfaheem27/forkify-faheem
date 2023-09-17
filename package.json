@@ -5,7 +5,7 @@
   "source": "./index.html",
   "scripts": {
     "start": "parcel --target default",
-    "build": "parcel build --no-optimize"
+    "build": "parcel build --no-optimize --dist-dir ./dist"
   },
   "author": "faheem tahir",
   "license": "ISC",
